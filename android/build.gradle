@@ -1,0 +1,37 @@
+buildscript {
+    // Définir la version Kotlin la plus récente
+    ext.kotlin_version = '2.1.21'  // Version Kotlin la plus récente stable
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        // Version la plus récente du plugin Android Gradle
+        classpath 'com.android.tools.build:gradle:8.3.2'
+        // Plugin Kotlin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // Plugin Google Services pour Firebase
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

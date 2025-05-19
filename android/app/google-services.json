@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "508064861531",
+    "project_id": "projetdev-3d53d",
+    "storage_bucket": "projetdev-3d53d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508064861531:android:3d0a79c2e5d5fa1b3e9e7e",
+        "android_client_info": {
+          "package_name": "com.opencampus.projetDev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCom-8ccm2CHD0buDgiiSYjMHB5E1FW43E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

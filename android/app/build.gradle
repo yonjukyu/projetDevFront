@@ -1,0 +1,93 @@
+// Ajout de la configuration buildscript pour inclure les dépendances Google Services
+buildscript {
+    ext.kotlin_version = '2.1.21'  // Mettez à jour cette version
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.4'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader("UTF-8") { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
+if (flutterVersionCode == null) {
+    flutterVersionCode = "1"
+}
+
+def flutterVersionName = localProperties.getProperty("flutter.versionName")
+if (flutterVersionName == null) {
+    flutterVersionName = "1.0"
+}
+
+android {
+    namespace = "com.opencampus.projetDev"
+    compileSdk = 35  // Au lieu de flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId = "com.opencampus.projetDev"
+        minSdk = 21
+        targetSdk = 35  // Au lieu de flutter.targetSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
+
+        // Multidex support pour éviter les limitations de méthodes
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig = signingConfigs.debug
+            // Minification optionnelle pour production
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+// Ajout des dépendances Firebase spécifiques si nécessaire
+dependencies {
+    // Multidex pour supporter un grand nombre de méthodes
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Firebase BOM (Bill of Materials) pour gérer les versions
+    implementation platform('com.google.firebase:firebase-bom:33.13.0')
+
+    // Dépendances Firebase spécifiques sans préciser la version (gérée par BOM)
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-firestore'
+}
+
+// Appliquer le plugin Google Services
+apply plugin: 'com.google.gms.google-services'
